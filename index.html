@@ -3,107 +3,692 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AF Viral Studio</title>
-  <meta name="description" content="AF Viral Studio creates simple, fun and polished mobile puzzle games for Android." />
+
+  <title>AF Viral Studio | Mobile Puzzle Games</title>
+  <meta
+    name="description"
+    content="AF Viral Studio creates polished mobile puzzle games for Android, including Orb Trap: Merge Puzzle."
+  />
+
   <style>
+    :root {
+      --bg: #050510;
+      --card: rgba(18, 18, 38, 0.78);
+      --card-border: rgba(141, 252, 255, 0.22);
+      --text: #ffffff;
+      --muted: #b9b9d6;
+      --cyan: #8dfcff;
+      --pink: #ff5df7;
+      --purple: #8a6cff;
+      --green: #7cffb2;
+      --shadow: 0 0 40px rgba(141, 252, 255, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #090914;
-      color: #ffffff;
-      line-height: 1.6;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 10%, rgba(141, 252, 255, 0.18), transparent 28%),
+        radial-gradient(circle at 80% 20%, rgba(255, 93, 247, 0.16), transparent 25%),
+        radial-gradient(circle at 50% 90%, rgba(138, 108, 255, 0.18), transparent 30%),
+        linear-gradient(180deg, #08081a 0%, #050510 55%, #030307 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
     }
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 40px 20px;
-    }
-    .hero {
-      text-align: center;
-      padding: 60px 20px;
-    }
-    h1 {
-      font-size: 42px;
-      margin-bottom: 10px;
-    }
-    h2 {
-      margin-top: 40px;
-      color: #8dfcff;
-    }
-    .card {
-      background: #151528;
-      border: 1px solid #2a2a45;
-      border-radius: 16px;
-      padding: 24px;
-      margin-top: 20px;
-    }
+
     a {
-      color: #8dfcff;
+      color: var(--cyan);
       text-decoration: none;
     }
-    .button {
-      display: inline-block;
-      margin-top: 16px;
-      padding: 12px 20px;
-      background: #8dfcff;
-      color: #080812;
-      border-radius: 10px;
-      font-weight: bold;
+
+    a:hover {
+      text-decoration: underline;
     }
-    footer {
-      margin-top: 60px;
+
+    .page {
+      position: relative;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px 20px 48px;
+    }
+
+    .orb {
+      position: fixed;
+      border-radius: 999px;
+      filter: blur(1px);
+      opacity: 0.8;
+      z-index: -1;
+      animation: float 7s ease-in-out infinite;
+    }
+
+    .orb.one {
+      width: 160px;
+      height: 160px;
+      top: 110px;
+      left: -45px;
+      background: radial-gradient(circle, rgba(141, 252, 255, 0.8), rgba(141, 252, 255, 0.05) 70%);
+    }
+
+    .orb.two {
+      width: 220px;
+      height: 220px;
+      right: -80px;
+      top: 260px;
+      background: radial-gradient(circle, rgba(255, 93, 247, 0.55), rgba(255, 93, 247, 0.04) 70%);
+      animation-delay: -2s;
+    }
+
+    .orb.three {
+      width: 120px;
+      height: 120px;
+      left: 12%;
+      bottom: 80px;
+      background: radial-gradient(circle, rgba(124, 255, 178, 0.55), rgba(124, 255, 178, 0.04) 70%);
+      animation-delay: -4s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-22px);
+      }
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at 30% 25%, #ffffff, transparent 13%),
+        linear-gradient(135deg, var(--cyan), var(--pink), var(--purple));
+      box-shadow: 0 0 28px rgba(141, 252, 255, 0.34);
+    }
+
+    nav {
+      display: flex;
+      gap: 18px;
       font-size: 14px;
-      color: #aaa;
-      text-align: center;
+      color: var(--muted);
+    }
+
+    nav a {
+      color: var(--muted);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      align-items: center;
+      gap: 34px;
+      padding: 76px 0 58px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid rgba(141, 252, 255, 0.26);
+      border-radius: 999px;
+      background: rgba(141, 252, 255, 0.08);
+      color: var(--cyan);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 7vw, 76px);
+      line-height: 0.95;
+      letter-spacing: -2.5px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #ffffff, var(--cyan), var(--pink));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 620px;
+      margin: 22px 0 0;
+      font-size: 18px;
+      color: var(--muted);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 20px;
+      border-radius: 14px;
+      font-weight: 800;
+      transition: transform 0.18s ease, opacity 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      text-decoration: none;
+      opacity: 0.94;
+    }
+
+    .button.primary {
+      background: linear-gradient(135deg, var(--cyan), #ffffff);
+      color: #070713;
+      box-shadow: 0 0 30px rgba(141, 252, 255, 0.22);
+    }
+
+    .button.secondary {
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .phone-card {
+      position: relative;
+      min-height: 460px;
+      border-radius: 34px;
+      padding: 18px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.03)),
+        rgba(10, 10, 24, 0.88);
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .phone-top {
+      height: 26px;
+      width: 120px;
+      margin: 0 auto 22px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.35);
+    }
+
+    .game-preview {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+
+    .tile {
+      aspect-ratio: 1;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: clamp(14px, 2vw, 21px);
+      color: #061016;
+      background: linear-gradient(135deg, var(--cyan), #ffffff);
+      box-shadow: 0 0 18px rgba(141, 252, 255, 0.22);
+    }
+
+    .tile:nth-child(2n) {
+      background: linear-gradient(135deg, var(--pink), #ffffff);
+    }
+
+    .tile:nth-child(3n) {
+      background: linear-gradient(135deg, var(--green), #ffffff);
+    }
+
+    .tile:nth-child(5n) {
+      background: linear-gradient(135deg, var(--purple), #ffffff);
+      color: white;
+    }
+
+    .preview-label {
+      margin-top: 24px;
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .preview-label strong {
+      display: block;
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    .preview-label span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    section {
+      margin-top: 34px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 30px;
+      letter-spacing: -0.8px;
+    }
+
+    .section-title p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 520px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      padding: 24px;
+      border-radius: 24px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 16px;
+      font-size: 22px;
+      background: rgba(141, 252, 255, 0.12);
+      border: 1px solid rgba(141, 252, 255, 0.22);
+    }
+
+    .game-section {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .big-card {
+      padding: 30px;
+      border-radius: 28px;
+      background:
+        linear-gradient(135deg, rgba(141, 252, 255, 0.14), rgba(255, 93, 247, 0.12)),
+        var(--card);
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow);
+    }
+
+    .big-card h2 {
+      margin-bottom: 14px;
+    }
+
+    .big-card p {
+      color: var(--muted);
+      margin: 0 0 16px;
+    }
+
+    .mode-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .mode {
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #e9e9ff;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .small-link-card {
+      display: block;
+      padding: 22px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #ffffff;
+    }
+
+    .small-link-card:hover {
+      text-decoration: none;
+      background: rgba(255,255,255,0.09);
+    }
+
+    .small-link-card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 18px;
+    }
+
+    .small-link-card span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    footer {
+      margin-top: 56px;
+      padding: 28px 0 6px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 850px) {
+      nav {
+        display: none;
+      }
+
+      .hero,
+      .game-section {
+        grid-template-columns: 1fr;
+      }
+
+      .phone-card {
+        min-height: auto;
+      }
+
+      .cards,
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        display: block;
+      }
+
+      .section-title p {
+        margin-top: 8px;
+      }
+
+      footer {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
+
 <body>
-  <div class="container">
+  <div class="orb one"></div>
+  <div class="orb two"></div>
+  <div class="orb three"></div>
+
+  <main class="page">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <span>AF Viral Studio</span>
+      </div>
+
+      <nav aria-label="Main navigation">
+        <a href="#games">Games</a>
+        <a href="#features">Features</a>
+        <a href="#support">Support</a>
+        <a href="#legal">Legal</a>
+      </nav>
+    </header>
+
     <section class="hero">
-      <h1>AF Viral Studio</h1>
-      <p>Mobile puzzle games with simple rules, satisfying merges and neon style.</p>
+      <div>
+        <div class="badge">✨ Indie mobile game studio</div>
+
+        <h1>
+          Neon puzzle games<br />
+          made to feel <span class="gradient-text">satisfying.</span>
+        </h1>
+
+        <p>
+          AF Viral Studio creates polished Android games with simple rules,
+          smooth progression and addictive merge gameplay.
+        </p>
+
+        <div class="actions">
+          <a
+            class="button primary"
+            href="https://play.google.com/store/apps/details?id=com.orbtrap"
+            target="_blank"
+            rel="noopener"
+          >
+            Get Orb Trap on Google Play
+          </a>
+
+          <a class="button secondary" href="mailto:afviralstudio@gmail.com">
+            Contact Support
+          </a>
+        </div>
+      </div>
+
+      <div class="phone-card" aria-label="Orb Trap game preview">
+        <div class="phone-top"></div>
+
+        <div class="game-preview">
+          <div class="tile">2</div>
+          <div class="tile">4</div>
+          <div class="tile">8</div>
+          <div class="tile">16</div>
+          <div class="tile">32</div>
+          <div class="tile">4</div>
+          <div class="tile">8</div>
+          <div class="tile">16</div>
+          <div class="tile">32</div>
+          <div class="tile">64</div>
+          <div class="tile">8</div>
+          <div class="tile">16</div>
+          <div class="tile">32</div>
+          <div class="tile">64</div>
+          <div class="tile">128</div>
+          <div class="tile">16</div>
+          <div class="tile">32</div>
+          <div class="tile">64</div>
+          <div class="tile">128</div>
+          <div class="tile">256</div>
+          <div class="tile">32</div>
+          <div class="tile">64</div>
+          <div class="tile">128</div>
+          <div class="tile">256</div>
+          <div class="tile">512</div>
+        </div>
+
+        <div class="preview-label">
+          <strong>Orb Trap: Merge Puzzle</strong>
+          <span>Merge orbs, build chains and chase higher scores.</span>
+        </div>
+      </div>
     </section>
 
-    <section>
-      <h2>Our Games</h2>
+    <section id="games" class="game-section">
+      <div class="big-card">
+        <h2>Orb Trap: Merge Puzzle</h2>
+
+        <p>
+          A neon merge puzzle game inspired by classic 2048-style and
+          2248-style gameplay. Merge matching orbs, unlock higher tiers,
+          trigger chain reactions and climb the leaderboards.
+        </p>
+
+        <p>
+          Designed for quick sessions, satisfying progress and replayable
+          puzzle challenges.
+        </p>
+
+        <a
+          class="button primary"
+          href="https://play.google.com/store/apps/details?id=com.orbtrap"
+          target="_blank"
+          rel="noopener"
+        >
+          Play on Android
+        </a>
+      </div>
+
+      <div class="big-card">
+        <h2>Game Modes</h2>
+
+        <p>
+          Play different merge styles and find the mode that fits you best.
+        </p>
+
+        <div class="mode-list">
+          <span class="mode">Slide Fusion</span>
+          <span class="mode">Orb Drop</span>
+          <span class="mode">Place Orb</span>
+          <span class="mode">Chain Fusion</span>
+          <span class="mode">Link Fusion</span>
+          <span class="mode">Tap Fusion</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="section-title">
+        <h2>Why players like it</h2>
+        <p>
+          Simple to understand, satisfying to master, and built around smooth
+          merge moments.
+        </p>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="feature-icon">⚡</div>
+          <h3>Fast sessions</h3>
+          <p>
+            Jump in quickly, make smart moves and chase a better score anytime.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="feature-icon">🔗</div>
+          <h3>Long chains</h3>
+          <p>
+            Create satisfying merge chains and unlock higher-value orbs.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="feature-icon">🏆</div>
+          <h3>Leaderboards</h3>
+          <p>
+            Compete across modes and track your best runs over time.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="support">
+      <div class="section-title">
+        <h2>Support</h2>
+        <p>
+          Found a bug, need help, or want to share feedback?
+        </p>
+      </div>
 
       <div class="card">
-        <h3>Orb Trap: Merge Puzzle</h3>
         <p>
-          Orb Trap is a neon merge puzzle game inspired by classic 2048-style and 2248-style gameplay.
-          Merge orbs, create long chains, unlock higher tiers and chase your best score across multiple game modes.
+          Contact AF Viral Studio at
+          <a href="mailto:afviralstudio@gmail.com">afviralstudio@gmail.com</a>.
         </p>
+      </div>
+    </section>
+
+    <section id="legal">
+      <div class="section-title">
+        <h2>Legal</h2>
         <p>
-          Features include Slide Fusion, Orb Drop, Place Orb, Chain and Link modes, daily rewards,
-          special actions and online leaderboards.
+          Review our privacy and terms pages before using our games.
         </p>
-        <a class="button" href="https://play.google.com/store/apps/details?id=com.orbtrap" target="_blank" rel="noopener">
-          Get it on Google Play
+      </div>
+
+      <div class="info-grid">
+        <a
+          class="small-link-card"
+          href="https://afviralstudio.github.io/orb-trap-privacy/"
+          target="_blank"
+          rel="noopener"
+        >
+          <strong>Privacy Policy</strong>
+          <span>How Orb Trap handles privacy and data.</span>
+        </a>
+
+        <a
+          class="small-link-card"
+          href="https://afviralstudio.github.io/orbtrap-legal/terms-of-service.html"
+          target="_blank"
+          rel="noopener"
+        >
+          <strong>Terms of Service</strong>
+          <span>Rules and conditions for using Orb Trap.</span>
         </a>
       </div>
     </section>
 
-    <section>
-      <h2>Support</h2>
-      <p>
-        Need help, found a bug, or want to send feedback?
-        Contact us at <a href="mailto:afviralstudio@gmail.com">afviralstudio@gmail.com</a>.
-      </p>
-    </section>
-
-    <section>
-      <h2>Legal</h2>
-      <p>
-        <a href="privacy-policy.html">Privacy Policy</a> ·
-        <a href="terms.html">Terms of Service</a> ·
-        <a href="support.html">Support</a>
-      </p>
-    </section>
-
     <footer>
-      © 2026 AF Viral Studio. All rights reserved.
+      <span>© 2026 AF Viral Studio. All rights reserved.</span>
+      <span>Made for Android puzzle players.</span>
     </footer>
+  </main>
+</body>
+  </html>    </footer>
   </div>
 </body>
 </html>
